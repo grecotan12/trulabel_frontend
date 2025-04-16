@@ -34,3 +34,32 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.icon-carousel {
+  outline: black;
+}
+
+.each-food {
+  font-size: 2rem;
+  font-family: "Poetsen One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: 2px 2px black;
+}
+
+.apple-link:hover {
+  fill: lightblue;
+}
+
+.footer-color {
+  background-color: lightgray;
+}
+
+#ig {
+  color: lightsalmon;
+
+}
+
+#ig:hover {
+  color: lightblue;
+}

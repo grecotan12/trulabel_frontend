@@ -17,7 +17,7 @@ export const Navbar = () => {
                             <a href="#" className="nav-link active">Home</a>
                         </li>
                         <li>
-                            <a href="#" className="nav-link">Check Label</a>
+                            <a href="#" className="nav-link">Check Ingredients</a>
                         </li>
                     </ul>
                     <ul className="navbar-nav ms-auto">
