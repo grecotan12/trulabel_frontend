@@ -1,6 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import IngredientModel from "../../models/IngredientModel";
+import { IngredientCard } from "./IngredientCard";
 
 export const Carousel = () => {
+    const [ingredients, setIngredients] = useState<IngredientModel[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [httpError, setHttpError] = useState(null);
+
+    useEffect(() => {
+        const fetchIngredients = async () => {
+            const baseUrl: string = "http://localhost:8080/api/ingredients";
+
+            const url: string = `${baseUrl}?page0&size=3`;
+
+            const response = await fetch(url);
+
+            const responseJson = await response.json();
+
+            const responseData = responseJson._embedded.ingredients;
+
+            const loadedIngredients: IngredientModel[] = [];
+
+            for (const key in responseData) {
+                loadedIngredients.push({
+                    id: responseData[key].id,
+                    title: responseData[key].title,
+                    definition: responseData[key].definition,
+                    cancerous_rating: responseData[key].cancerous_rating,
+                    alternatives: responseData[key].alternatives
+                });
+            }
+
+            setIngredients(loadedIngredients);
+            setIsLoading(false);
+        };
+
+        fetchIngredients().catch((error: any) => {
+            setIsLoading(false);
+            setHttpError(error.message);
+        })
+    }, [])
+
+    if (isLoading) {
+        return(
+            <div className="container mt-5 mb-5">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    if (httpError) {
+        return(
+            <div className="container mt-5 mb-5">
+                <p>{httpError}</p>
+            </div>
+        );
+    }
+
     return(
         <div className="container mt-5 mb-5">
             <div className="carousel-title">
@@ -15,21 +71,18 @@ export const Carousel = () => {
 
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src={require('./../../images/processed_meat.jpeg')} alt="processed meat" className="d-block intro-img"/>
-                        <div className="carousel-caption">
-                            <h3 className="each-food">Processed Meat</h3>
+                        <div className="row d-flex justify-content-center align-items-center">
+                            <IngredientCard ingredient={ingredients[0]} key={ingredients[0].id} />
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img src={require('./../../images/aspartame.jpg')} alt="artifical sweeteners" className="d-block intro-img"/>
-                        <div className="carousel-caption">
-                            <h3 className="each-food">Artificial Sweeteners</h3>
+                        <div className="row d-flex justify-content-center align-items-center">
+                            <IngredientCard ingredient={ingredients[1]} key={ingredients[1].id} />
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img src={require('./../../images/transfats.png')} alt="trans-fat in fried and oil food" className="d-block intro-img"/>
-                        <div className="carousel-caption">
-                            <h3 className="each-food">Trans-fat in unhealthy food</h3>
+                        <div className="row d-flex justify-content-center align-items-center">
+                            <IngredientCard ingredient={ingredients[2]} key={ingredients[2].id} />
                         </div>
                     </div>
                 </div>

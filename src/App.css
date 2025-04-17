@@ -63,3 +63,8 @@
 #ig:hover {
   color: lightblue;
 }
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(1);
+}
